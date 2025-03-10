@@ -53,9 +53,37 @@ var_dump(
       <label for="name">Full Name:</label>
       <input type="text" class="form-control" id="name" name="name" value="<?php echo htmlspecialchars($userinfo->name); ?>" readonly>
     </div>
+    <div class="form-group">
+      <label for="cpf">CPF:</label>
+      <input type="text" class="form-control cpf-mask" id="cpf" name="cpf" placeholder="000.000.000-00" required>
+      <div id="cpf-error" class="text-danger" style="display: none;">CPF inválido</div>
+    </div>
     <button type="submit" class="btn btn-primary">Save to Database</button>
   </form>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+<script>
+  $(document).ready(function(){
+    $('.cpf-mask').mask('000.000.000-00', {reverse: true});
+    $('#cpf').on('blur', function() {
+      var cpf = $(this).val();
+      $.ajax({
+        url: 'validar_cpf.php',
+        type: 'POST',
+        data: { cpf: cpf },
+        dataType: 'json',
+        success: function(response) {
+          if (response.valid) {
+            $('#cpf-error').hide();
+          } else {
+            $('#cpf-error').show();
+          }
+        }
+      });
+    });
+  });
+</script>
     
 </body>
 </html>
