@@ -34,24 +34,28 @@ var_dump(
   </head>
 <body>
 
-<table class="table table-striped table-dark"> 
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Nome</th>
-      <th scope="col">Email</th>
-      <th scope="col">Usuario</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td><?= $userinfo->givenName ?></td>
-      <td><?= $userinfo->email ?></td>
-      <td><?= $userinfo->name ?></td>
-    </tr>
-  </tbody>
-</table>
+<div class="container">
+  <h2>User Information</h2>
+  <form action="connection_db.php" method="post">
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($userinfo->email); ?>" readonly>
+    </div>
+    <div class="form-group">
+      <label for="familyName">Family Name:</label>
+      <input type="text" class="form-control" id="familyName" name="familyName" value="<?php echo htmlspecialchars($userinfo->familyName); ?>" readonly>
+    </div>
+    <div class="form-group">
+      <label for="givenName">Given Name:</label>
+      <input type="text" class="form-control" id="givenName" name="givenName" value="<?php echo htmlspecialchars($userinfo->givenName); ?>" readonly>
+    </div>
+    <div class="form-group">
+      <label for="name">Full Name:</label>
+      <input type="text" class="form-control" id="name" name="name" value="<?php echo htmlspecialchars($userinfo->name); ?>" readonly>
+    </div>
+    <button type="submit" class="btn btn-primary">Save to Database</button>
+  </form>
+</div>
     
 </body>
 </html>
