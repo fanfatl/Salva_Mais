@@ -4,7 +4,7 @@ require __DIR__ . "/vendor/autoload.php";
 $client = new Google\Client;
 $client->setClientId("1063843599243-gqe8u6vbsgtmr0l0tbiucna4c3d2b9st.apps.googleusercontent.com");
 $client->setClientSecret("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");
-$client->setRedirectUri("http://localhost/salva+/main.php");
+$client->setRedirectUri("http://localhost/salva+/receive_data.php");
 
 if ( ! isset($_GET["code"])){
     exit("Login failed");
@@ -36,7 +36,7 @@ var_dump(
 
 <div class="container">
   <h2>User Information</h2>
-  <form action="connection_db.php" method="post">
+  <form action="crud/create.php" method="post">
     <div class="form-group">
       <label for="email">Email:</label>
       <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($userinfo->email); ?>" readonly>
