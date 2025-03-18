@@ -57,6 +57,16 @@
             </thead>
             <tbody>
                 <?php
+                include 'crud/delete.php';
+                if (isset($_GET["delete_id"])) {
+                    $deleteId = $_GET["delete_id"];
+                    delete($deleteId);
+                }
+                include 'crud/update.php';
+                if(isset($_GET["update_id"])){
+                    $updateId = $_GET["update_id"];
+                    update($updateId);
+                }
                 include 'connection_db.php';
                 $rs = $conn->query("SELECT * FROM usuarios");
                 while($row = $rs->fetch(PDO::FETCH_OBJ)){
@@ -67,8 +77,8 @@
                     echo "<td>{$row->full_name}</td>";
                     echo "<td>{$row->cpf}</td>";
                     echo "<td>
-                            <a href='#' class='btn btn-danger'>Delete</a>
-                            <a href='#' class='btn btn-warning'>Edit</a>
+                            <a href='?delete_id={$row->id}' class='btn btn-danger'>Delete</a>
+                            <a href='?update_id={$row->id}' class='btn btn-warning'>Edit</a>
                           </td>";
                     echo "</tr>";
                 }
