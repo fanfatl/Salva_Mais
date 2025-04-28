@@ -49,7 +49,7 @@ var_dump(
   <label for="senha">Senha:</label>
   <input type="password" class="form-control" id="senha" name="senha" placeholder="Digite sua senha" required>
   <div id="senha-error" class="text-danger" style="display: none;">Senha inválida</div>
-</div>
+  </div>
 
     <div class="form-group">
       <label for="cpf">CPF:</label>
