@@ -4,7 +4,7 @@ require __DIR__ . "/vendor/autoload.php";
 $client = new Google\Client;
 $client->setClientId("1063843599243-gqe8u6vbsgtmr0l0tbiucna4c3d2b9st.apps.googleusercontent.com");
 $client->setClientSecret("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");
-$client->setRedirectUri("http://localhost/salva+/receive_data.php");
+$client->setRedirectUri("http://localhost/tcc/receive_data.php");
 
 if ( ! isset($_GET["code"])){
     exit("Login failed");
@@ -42,17 +42,15 @@ var_dump(
       <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($userinfo->email); ?>" readonly>
     </div>
     <div class="form-group">
-      <label for="familyName">Family Name:</label>
-      <input type="text" class="form-control" id="familyName" name="familyName" value="<?php echo htmlspecialchars($userinfo->familyName); ?>" readonly>
-    </div>
-    <div class="form-group">
-      <label for="givenName">Given Name:</label>
-      <input type="text" class="form-control" id="givenName" name="givenName" value="<?php echo htmlspecialchars($userinfo->givenName); ?>" readonly>
-    </div>
-    <div class="form-group">
       <label for="name">Full Name:</label>
       <input type="text" class="form-control" id="name" name="name" value="<?php echo htmlspecialchars($userinfo->name); ?>" readonly>
     </div>
+    <div class="form-group">
+  <label for="senha">Senha:</label>
+  <input type="password" class="form-control" id="senha" name="senha" placeholder="Digite sua senha" required>
+  <div id="senha-error" class="text-danger" style="display: none;">Senha inválida</div>
+</div>
+
     <div class="form-group">
       <label for="cpf">CPF:</label>
       <input type="text" class="form-control cpf-mask" id="cpf" name="cpf" placeholder="000.000.000-00" required>
