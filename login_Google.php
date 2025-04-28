@@ -4,7 +4,7 @@ require __DIR__ . "/vendor/autoload.php";
 $client = new Google\Client;
 $client->setClientId("1063843599243-gqe8u6vbsgtmr0l0tbiucna4c3d2b9st.apps.googleusercontent.com");
 $client->setClientSecret("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");
-$client->setRedirectUri("http://localhost/salva+/receive_data.php");
+$client->setRedirectUri("http://localhost/tcc/receive_data.php");
 
 $client->addScope("email");
 $client->addScope("profile");
