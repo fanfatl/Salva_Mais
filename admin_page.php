@@ -71,7 +71,6 @@
                 while($row = $rs->fetch(PDO::FETCH_OBJ)){
                     echo "<tr>";
                     echo "<td>{$row->email}</td>";
-                    echo "<td>{$row->family_name}</td>";
                     echo "<td>{$row->given_name}</td>";
                     echo "<td>{$row->full_name}</td>";
                     echo "<td>{$row->cpf}</td>";
