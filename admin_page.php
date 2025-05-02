@@ -48,7 +48,6 @@
             <thead>
                 <tr>
                     <th>Email</th>
-                    <th>Family Name</th>
                     <th>Given Name</th>
                     <th>Full Name</th>
                     <th>CPF</th>
