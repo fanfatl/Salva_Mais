@@ -17,14 +17,14 @@ $url = $client->createAuthUrl();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="Login_CssUP.css">
+    <link rel="stylesheet" href="Entrar.css">
 </head>
 <body>
     <div class=topo-decoracao></div>
     
     <div class="login-container">
         <h1>Login</h1>
-        <form action="process_login.php" method="POST">
+        <form action="crud/create.php" method="POST">
             <div class="form-group">
                 <label for="email">E-mail:</label>
                 <input type="email" id="email" name="email" required>
@@ -34,8 +34,10 @@ $url = $client->createAuthUrl();
                 <input type="password" id="password" name="password" required>
             </div>
             <button type="submit" class="btn">Entrar</button>
+            <p>Não tem um cadastro? Faça <a href="Cadastro.php">aqui</a></p>
         </form>
         <hr>
+        <p><a href="Cadastro.php"></a></p>
         <button onclick="location.href = '<?= $url ?>'" class="gsi-material-button">
             <div class="gsi-material-button-icon">
                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" xmlns:xlink="http://www.w3.org/1999/xlink" style="display: block;">

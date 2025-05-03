@@ -1,6 +1,6 @@
 <?php
 $host = "localhost";
-$dbname = "salva_mais";
+$dbname = "salvamais";
 $username = "root";
 $password = "";
 
