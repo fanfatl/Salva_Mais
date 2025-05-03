@@ -1,20 +1,20 @@
 <?php
 include '../connection_db.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = $_POST["email"];
-    $familyName = $_POST["familyName"];
-    $givenName = $_POST["givenName"];
-    $name = $_POST["name"];
-    $cpf = $_POST["cpf"];
+    $nome = $_POST['nome'];
+    $email = $_POST['email'];
+    $senha = $_POST['senha'];
+    $cpf = $_POST['cpf'];
+    $funcao = $_POST['funcao']; //ilhado ou voluntario
 
-    $sql = "INSERT INTO usuarios (email, family_name, given_name, full_name, cpf) VALUES (:email, :familyName, :givenName, :fullName, :cpf)";
+    $sql = "INSERT INTO usuarios (nome, email, senha, cpf) VALUES (:nome, :email, :senha, :cpf, :funcao)";
     $stmt = $conn->prepare($sql);
 
-    $stmt->bindParam(":email", $email);
-    $stmt->bindParam(":familyName", $familyName);
-    $stmt->bindParam(":givenName", $givenName);
-    $stmt->bindParam(":fullName", $name);
-    $stmt->bindParam(":cpf", $cpf);
+    $stmt->bindParam(':nome', $nome);
+    $stmt->bindParam(':email', $email);
+    $stmt->bindParam(':senha', password_hash($senha, PASSWORD_DEFAULT)); //censura a senha
+    $stmt->bindParam(':cpf', $cpf);
+    $stmt->bindParam(':funcao', $funcao); // Envia ao banco o valor da funcao (ilhado ou voluntario)
 
     if ($stmt->execute()) {
         echo "Usuário salvo com sucesso!";
