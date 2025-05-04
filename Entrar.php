@@ -4,7 +4,7 @@ require __DIR__ . "/vendor/autoload.php";
 $client = new Google\Client;
 $client->setClientId("1063843599243-gqe8u6vbsgtmr0l0tbiucna4c3d2b9st.apps.googleusercontent.com");
 $client->setClientSecret("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");
-$client->setRedirectUri("http://localhost/tcc/receive_data.php");
+$client->setRedirectUri("http://localhost/tcc/callbackGoogle.php");
 
 $client->addScope("email");
 $client->addScope("profile");
@@ -34,7 +34,7 @@ $url = $client->createAuthUrl();
                 <input type="password" id="password" name="password" required>
             </div>
             <button type="submit" class="btn">Entrar</button>
-            <p>Não tem um cadastro? Faça <a href="Cadastro.php">aqui</a></p>
+            <p>Não tem um cadastro? Faça <a href="Cadastro.html">aqui</a></p>
         </form>
         <hr>
         <p><a href="Cadastro.php"></a></p>
