@@ -1,4 +1,8 @@
 <?php
+session_start();
+$funcao = $_GET['funcao'] ?? $_SESSION['funcao'] ?? 'ilhado';
+$_SESSION['funcao'] = $funcao;
+/* var_dump($_SESSION['funcao']); */
 require __DIR__ . "/vendor/autoload.php";
 
 $client = new Google\Client;
@@ -24,7 +28,7 @@ $url = $client->createAuthUrl();
     
     <div class="login-container">
         <h1>Login</h1>
-        <form action="crud/create.php" method="POST">
+        <form action="crud/read.php" method="POST">
             <div class="form-group">
                 <label for="email">E-mail:</label>
                 <input type="email" id="email" name="email" required>
@@ -34,7 +38,7 @@ $url = $client->createAuthUrl();
                 <input type="password" id="password" name="password" required>
             </div>
             <button type="submit" class="btn">Entrar</button>
-            <p>Não tem um cadastro? Faça <a href="Cadastro.html">aqui</a></p>
+            <p>Não tem um cadastro? Faça <a href="Cadastro.php?funcao=<?= htmlspecialchars($funcao) ?>">aqui</a></p>
         </form>
         <hr>
         <p><a href="Cadastro.php"></a></p>

@@ -1,3 +1,6 @@
+<?php
+$funcao = $_GET['funcao'] ?? 'ilhado';
+?>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">

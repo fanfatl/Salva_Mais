@@ -1,4 +1,8 @@
 <?php
+session_start();
+$funcao = $_GET['funcao'] ?? $_SESSION['funcao'] ?? 'ilhado';
+$_SESSION['funcao'] = $funcao;
+
 include '../connection_db.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nome = $_POST['nome'];
@@ -17,7 +21,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bindParam(':funcao', $funcao); // Envia ao banco o valor da funcao (ilhado ou voluntario)
 
     if ($stmt->execute()) {
-        echo "Usuário salvo com sucesso!";
+        header("Location: ../Entrar.php?funcao=$funcao");
+        exit();
     } else {
         echo "Erro ao salvar o usuário.";
         print_r($stmt->errorInfo()); 
