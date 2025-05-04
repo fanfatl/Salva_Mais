@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $cpf = $_POST['cpf'];
     $funcao = $_POST['funcao']; //ilhado ou voluntario
 
-    $sql = "INSERT INTO usuarios (nome, email, senha, cpf) VALUES (:nome, :email, :senha, :cpf, :funcao)";
+    $sql = "INSERT INTO usuarios (nome, email, senha, cpf, funcao) VALUES (:nome, :email, :senha, :cpf, :funcao)";
     $stmt = $conn->prepare($sql);
 
     $stmt->bindParam(':nome', $nome);
