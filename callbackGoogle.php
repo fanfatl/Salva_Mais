@@ -41,11 +41,11 @@ var_dump(
         <form action="crud/create.php" method="POST">
             <div class="form-group">
                 <label for="nome">Nome:</label>
-                <input type="text" id="nome" name="nome" required>
+                <input type="text" id="nome" name="nome" value="<?php echo htmlspecialchars($userinfo->name)?>" readonly required>
             </div>
             <div class="form-group">
                 <label for="email">E-mail:</label>
-                <input type="email" id="email" name="email" required>
+                <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($userinfo->email)?>" readonly required>
             </div>
             <div class="form-group">
                 <label for="cpf">CPF:</label>
