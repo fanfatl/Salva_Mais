@@ -13,19 +13,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($user && password_verify($password, $user['senha'])) {
-        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['id'] = $user['id'];
         $_SESSION['funcao'] = $user['funcao'];
         if($_SESSION['funcao'] == 'voluntario'){
-            header("Location: ../uvolpage.php?id=" . $_SESSION['user_id']);
+            header("Location: ../uvolpage.php");
         } else {
-            header("Location: ../userpage.php?id=" . $_SESSION['user_id']);
+            header("Location: ../userpage.php");
         }
         
     } else {
         echo "
         <script>
         alert('E-mail ou senha incorretos.');
-        window.location.href = '../Entrar.php';
+        window.location.href = '../Entrar.php?funcao=" . $_SESSION['funcao'] . "';
         </script>";
 exit();
     }

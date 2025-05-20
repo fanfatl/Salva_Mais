@@ -1,24 +1,17 @@
 <?php
-include 'connection_db.php';
 session_start();
-$user_id = $_GET['id'];
-$sql = "SELECT * FROM usuarios WHERE id = :id";
-$stmt = $conn->prepare($sql);
-$stmt->bindParam(':id', $user_id);
-$stmt->execute();
-$user = $stmt->fetch(PDO::FETCH_ASSOC);
-//var_dump($user['nome']);
-//mostrar chamados abertos
-$sql = "SELECT * FROM chamados WHERE usuario_id = :id;";
-$stmt_request = $conn->prepare($sql);
-$stmt_request->bindParam(':id', $user_id);
-$stmt_request->execute();
-$requests = $stmt_request->fetchAll(PDO::FETCH_ASSOC);
-var_dump($requests);
+include 'connection_db.php';
 
+// Verifica se o usuário está logado
+if (!isset($_SESSION['id'])) {
+    header("Location: login.php");
+    exit();
+}
+
+$user_id = $_SESSION['id'];
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,16 +27,19 @@ var_dump($requests);
 </head>
 <body>
     <form action="crud_request/creater.php" method="POST">
-        <input type="hidden" name="id_usuario" value="<?= htmlspecialchars($user['id']) ?>">
+        <input type="hidden" name="id_usuario" value="<?= htmlspecialchars($user_id) ?>">
+        
         <label for="rua">Endereço:</label> <br>
         <input type="text" name="rua" id="rua" placeholder="Rua" required>
         <input type="number" name="numero" id="numero" placeholder="Número" required>
         <input type="text" name="bairro" id="bairro" placeholder="Bairro" required>
         <input type="text" name="cidade" id="cidade" placeholder="Cidade" required>
         <br>
-        <label for="quantidade_pessoas">Quantidade de pessoas para resgate: </label>
+        
+        <label for="quantidade_pessoas">Quantidade de pessoas para resgate:</label>
         <input type="number" name="quantidade_pessoas" id="quantidade_pessoas" min="1" required>
         <br>
+        
         <label for="possui_animais">Possui animais de estimação?</label>
         <select name="possui_animais" id="possui_animais" onchange="toggleAnimais()" required>
             <option value="" disabled selected>Selecione uma opção</option>
@@ -51,14 +47,17 @@ var_dump($requests);
             <option value="nao">Não</option>
         </select>
         <br>
+        
         <div id="quantidade_animais_group" style="display:none;">
             <label for="quantidade_animais">Quantidade de animais:</label>
             <input type="number" name="quantidade_animais" id="quantidade_animais" min="1">
             <br>
         </div>
+        
         <label for="situacao">Situação (opcional):</label>
         <textarea name="situacao" id="situacao" placeholder="Descreva a situação, se desejar"></textarea>
         <br>
+        
         <input type="submit" value="Enviar">
     </form>
 </body>
