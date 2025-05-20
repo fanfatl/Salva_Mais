@@ -1,8 +1,8 @@
 <?php
-$host = "localhost";
+$host = "db";
 $dbname = "salvamais";
 $username = "root";
-$password = "";
+$password = "root";
 
 try {
     $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);

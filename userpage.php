@@ -1,30 +1,64 @@
 <?php
 session_start();
-$user_id = $_GET['id'];
+
+// Bloqueia se não estiver logado
+if (!isset($_SESSION['id'])) {
+    header("Location: Entrar.php?funcao=ilhado");
+    exit();
+}
+
+$user_id = $_SESSION['id']; // ID do usuário logado, seguro
+
 include 'connection_db.php';
+
+// Puxa os dados do usuário
 $sql = "SELECT * FROM usuarios WHERE id = :id";
 $stmt = $conn->prepare($sql);
-$stmt->bindParam(':id', $user_id);
+$stmt->bindParam(':id', $user_id, PDO::PARAM_INT);
 $stmt->execute();
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
-/* var_dump(
-    $user['nome'],
-    $user['email'],
-    $user['senha'],
-    $user['cpf'],
-    $user['funcao']
-) */
 
+// Puxa os chamados do usuário
+$sql = "SELECT * FROM chamados WHERE usuario_id = :id";
+$stmt_request = $conn->prepare($sql);
+$stmt_request->bindParam(':id', $user_id, PDO::PARAM_INT);
+$stmt_request->execute();
+$chamado = $stmt_request->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SalvaMais</title>
 </head>
-<h1>Olá, <?=$user['nome']?></h1>
 <body>
-    
+    <h1>Olá, <?= htmlspecialchars($user['nome']) ?></h1>
+
+    <h3>Seu Chamado:</h3>
+    <ul>
+        <?php if (count($chamado) > 0): ?>
+            <?php foreach ($chamado as $request): ?>
+                <li>
+                    <strong>Chamado ID:</strong> <?= htmlspecialchars($request['id']) ?><br>
+                    <strong>Rua:</strong> <?= htmlspecialchars($request['rua']) ?><br>
+                    <strong>Número:</strong> <?= htmlspecialchars($request['numero']) ?><br>
+                    <strong>Bairro:</strong> <?= htmlspecialchars($request['bairro']) ?><br>
+                    <strong>Cidade:</strong> <?= htmlspecialchars($request['cidade']) ?><br>
+                    <strong>Quantidade de pessoas para resgate:</strong> <?= htmlspecialchars($request['quantidade_pessoas']) ?><br>
+                    <strong>Possui animais de estimação:</strong> <?= $request['possui_animais'] ? 'Sim' : 'Não' ?><br>
+                    <?php if ($request['possui_animais']): ?>
+                        <strong>Quantidade de animais:</strong> <?= htmlspecialchars($request['quantidade_animais']) ?><br>
+                    <?php endif; ?>
+                    <strong>Data de criação:</strong> <?= htmlspecialchars($request['data_criacao']) ?><br>
+                    <strong>Situação:</strong> <?= htmlspecialchars($request['situacao']) ?><br>
+                    <strong>Status:</strong> <?= htmlspecialchars($request['status']) ?><br>
+                </li>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <li>Nenhum chamado encontrado.</li> 
+            <li><a href="newticket.php">Novo Chamado</a></li>
+        <?php endif; ?>
+    </ul>
 </body>
 </html>

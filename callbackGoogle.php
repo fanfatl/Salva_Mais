@@ -7,7 +7,7 @@ require __DIR__ . "/vendor/autoload.php";
 $client = new Google\Client;
 $client->setClientId("1063843599243-gqe8u6vbsgtmr0l0tbiucna4c3d2b9st.apps.googleusercontent.com");
 $client->setClientSecret("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");
-$client->setRedirectUri("http://localhost/tcc/callbackGoogle.php");
+$client->setRedirectUri("http://localhost:8080/callbackGoogle.php");
 
 if ( ! isset($_GET["code"])){
     exit("Login failed");
