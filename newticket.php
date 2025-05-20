@@ -34,6 +34,8 @@ $user_id = $_SESSION['id'];
         <input type="number" name="numero" id="numero" placeholder="Número" required>
         <input type="text" name="bairro" id="bairro" placeholder="Bairro" required>
         <input type="text" name="cidade" id="cidade" placeholder="Cidade" required>
+        <button type="button" onclick="getEndereco()">Onde estou?</button>
+        <p id="endereco">Endereco: ...</p>
         <br>
         
         <label for="quantidade_pessoas">Quantidade de pessoas para resgate:</label>
@@ -60,5 +62,65 @@ $user_id = $_SESSION['id'];
         
         <input type="submit" value="Enviar">
     </form>
+    <script>
+  async function getEndereco() {
+    if (!navigator.geolocation) {
+      alert("Geolocalização não suportada.");
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      async function(position) {
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
+
+        try {
+          const response = await fetch(
+            `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyCYVmO-Av6Mnp7YIDCQQOIcC8-rhLhs1WY`
+          );
+
+          const dados = await response.json(); // 👈 aqui era o erro: faltava "await"
+          console.log(dados); // debug
+
+          if (dados.status === "OK") {
+            const resultado = dados.results[0];
+            const componentes = resultado.address_components;
+
+            let rua = "", numero = "", bairro = "", cidade = "";
+
+            componentes.forEach(c => {
+              if (c.types.includes("route")) rua = c.long_name;
+              if (c.types.includes("street_number")) numero = c.long_name;
+              if (c.types.includes("sublocality") || c.types.includes("sublocality_level_1")) bairro = c.long_name;
+              if (c.types.includes("administrative_area_level_2")) cidade = c.long_name;
+            });
+
+            // Preenche os campos do formulário
+            document.getElementById("rua").value = rua;
+            document.getElementById("numero").value = numero;
+            document.getElementById("bairro").value = bairro;
+            document.getElementById("cidade").value = cidade;
+
+            document.getElementById("endereco").textContent = "Endereço: " + resultado.formatted_address;
+          } else {
+            document.getElementById("endereco").textContent = "Erro ao obter endereço.";
+          }
+        } catch (erro) {
+          console.error("Erro ao conectar com a API:", erro);
+          document.getElementById("endereco").textContent = "Erro ao conectar à API.";
+        }
+      },
+      function(error) {
+        alert("Erro ao obter localização: " + error.message);
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0
+      }
+    );
+  }
+</script>
+
 </body>
 </html>
