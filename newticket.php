@@ -2,9 +2,8 @@
 session_start();
 include 'connection_db.php';
 
-// Verifica se o usuário está logado
 if (!isset($_SESSION['id'])) {
-    header("Location: login.php");
+    header("Location: Entrar.php");
     exit();
 }
 
@@ -35,7 +34,7 @@ $user_id = $_SESSION['id'];
         <input type="text" name="bairro" id="bairro" placeholder="Bairro" required>
         <input type="text" name="cidade" id="cidade" placeholder="Cidade" required>
         <button type="button" onclick="getEndereco()">Onde estou?</button>
-        <p id="endereco">Endereco: ...</p>
+        <p id="endereco">Endereço: </p>
         <br>
         
         <label for="quantidade_pessoas">Quantidade de pessoas para resgate:</label>
@@ -79,8 +78,8 @@ $user_id = $_SESSION['id'];
             `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyCYVmO-Av6Mnp7YIDCQQOIcC8-rhLhs1WY`
           );
 
-          const dados = await response.json(); // 👈 aqui era o erro: faltava "await"
-          console.log(dados); // debug
+          const dados = await response.json();
+          console.log(dados);
 
           if (dados.status === "OK") {
             const resultado = dados.results[0];
@@ -95,7 +94,7 @@ $user_id = $_SESSION['id'];
               if (c.types.includes("administrative_area_level_2")) cidade = c.long_name;
             });
 
-            // Preenche os campos do formulário
+            
             document.getElementById("rua").value = rua;
             document.getElementById("numero").value = numero;
             document.getElementById("bairro").value = bairro;

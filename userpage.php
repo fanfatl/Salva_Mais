@@ -1,24 +1,23 @@
 <?php
 session_start();
 
-// Bloqueia se não estiver logado
 if (!isset($_SESSION['id'])) {
     header("Location: Entrar.php?funcao=ilhado");
     exit();
 }
 
-$user_id = $_SESSION['id']; // ID do usuário logado, seguro
+$user_id = $_SESSION['id'];
 
 include 'connection_db.php';
 
-// Puxa os dados do usuário
+// user
 $sql = "SELECT * FROM usuarios WHERE id = :id";
 $stmt = $conn->prepare($sql);
 $stmt->bindParam(':id', $user_id, PDO::PARAM_INT);
 $stmt->execute();
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Puxa os chamados do usuário
+// chamado
 $sql = "SELECT * FROM chamados WHERE usuario_id = :id";
 $stmt_request = $conn->prepare($sql);
 $stmt_request->bindParam(':id', $user_id, PDO::PARAM_INT);
@@ -53,6 +52,10 @@ $chamado = $stmt_request->fetchAll(PDO::FETCH_ASSOC);
                     <strong>Data de criação:</strong> <?= htmlspecialchars($request['data_criacao']) ?><br>
                     <strong>Situação:</strong> <?= htmlspecialchars($request['situacao']) ?><br>
                     <strong>Status:</strong> <?= htmlspecialchars($request['status']) ?><br>
+                    <form action="crud_request/deleter.php" method="POST">
+                        <input type="hidden" name="id_chamado" value=" <?= htmlspecialchars($request['id']) ?>">
+                        <button type="submit" onclick="return confirm('Realmente deseja excluir esse chamado?')">Excluir Chamado</button>
+                    </form>
                 </li>
             <?php endforeach; ?>
         <?php else: ?>
