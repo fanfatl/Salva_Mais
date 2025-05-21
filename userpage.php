@@ -29,39 +29,109 @@ $chamado = $stmt_request->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SalvaMais</title>
+    <title>SalvaMais - Minha Conta</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Olá, <?= htmlspecialchars($user['nome']) ?></h1>
+    
+    <!-- Menu Lateral -->
+    <div class="menu-container" id="menuContainer">
+        <div class="menu-header">
+        <h3>Menu</h3>
+        <button onclick="toggleMenu()">✕</button>
+    </div>
+    <div class="menu-items">
+        <div class="menu-item menu-home" onclick="navigate('userpage.php')">
+            <span class="icon"></span>
+            <span>Início</span>
+        </div>
+        <div class="menu-item menu-new" onclick="navigate('newticket.php')">
+            <span class="icon"></span>
+            <span>Novo Chamado</span>
+        </div>
+        <div class="menu-item menu-requests" onclick="navigate('userpage.php#requests')">
+            <span class="icon"></span>
+            <span>Meus Chamados</span>
+        </div>
+        <div class="menu-item menu-map" onclick="navigate('uvolpage.php')">
+            <span class="icon"></span>
+            <span>Mapa de Resgate</span>
+        </div>
+        <div class="menu-item menu-profile" onclick="navigate('profile.php')">
+            <span class="icon"></span>
+            <span>Meu Perfil</span>
+        </div>
+        <div class="menu-item menu-settings" onclick="navigate('settings.php')">
+            <span class="icon"></span>
+            <span>Configurações</span>
+        </div>
+        <div class="menu-item menu-help" onclick="navigate('help.php')">
+            <span class="icon"></span>
+            <span>Ajuda</span>
+        </div>
+        <div class="menu-item menu-logout" onclick="logout()">
+            <span class="icon"></span>
+            <span>Sair</span>
+        </div>
+    </div>
+</div>
+<!-- Menu Toggle Button -->
+<button class="menu-toggle" onclick="toggleMenu()">☰</button>
 
-    <h3>Seu Chamado:</h3>
-    <ul>
-        <?php if (count($chamado) > 0): ?>
-            <?php foreach ($chamado as $request): ?>
-                <li>
-                    <strong>Chamado ID:</strong> <?= htmlspecialchars($request['id']) ?><br>
-                    <strong>Rua:</strong> <?= htmlspecialchars($request['rua']) ?><br>
-                    <strong>Número:</strong> <?= htmlspecialchars($request['numero']) ?><br>
-                    <strong>Bairro:</strong> <?= htmlspecialchars($request['bairro']) ?><br>
-                    <strong>Cidade:</strong> <?= htmlspecialchars($request['cidade']) ?><br>
-                    <strong>Quantidade de pessoas para resgate:</strong> <?= htmlspecialchars($request['quantidade_pessoas']) ?><br>
-                    <strong>Possui animais de estimação:</strong> <?= $request['possui_animais'] ? 'Sim' : 'Não' ?><br>
-                    <?php if ($request['possui_animais']): ?>
-                        <strong>Quantidade de animais:</strong> <?= htmlspecialchars($request['quantidade_animais']) ?><br>
-                    <?php endif; ?>
-                    <strong>Data de criação:</strong> <?= htmlspecialchars($request['data_criacao']) ?><br>
-                    <strong>Situação:</strong> <?= htmlspecialchars($request['situacao']) ?><br>
-                    <strong>Status:</strong> <?= htmlspecialchars($request['status']) ?><br>
-                    <form action="crud_request/deleter.php" method="POST">
-                        <input type="hidden" name="id_chamado" value=" <?= htmlspecialchars($request['id']) ?>">
-                        <button type="submit" onclick="return confirm('Realmente deseja excluir esse chamado?')">Excluir Chamado</button>
-                    </form>
-                </li>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <li>Nenhum chamado encontrado.</li> 
-            <li><a href="newticket.php">Novo Chamado</a></li>
-        <?php endif; ?>
-    </ul>
+<script>
+    function toggleMenu() {
+        const menu = document.getElementById('menuContainer');
+       // const content = document.querySelector('.main-content');
+        
+        menu.classList.toggle('active');
+        //content.classList.toggle('shifted');
+    }
+
+    function navigate(page) {
+        window.location.href = page;
+    }
+
+    function logout() {
+        // Implementar lógica de logout
+        window.location.href = 'logout.php';
+    }
+</script>
+<div class="main-content">
+    <div class="container">
+        <header>
+            <h1>Olá, <?= htmlspecialchars($user['nome']) ?></h1>
+        </header>
+
+        <div class="card">
+            <h2>Seus Chamados</h2>
+            
+            <?php if (count($chamado) > 0): ?>
+                <ul class="request-list">
+                    <?php foreach ($chamado as $request): ?>
+                        <li class="request-item">
+                            <h3>Chamado #<?= htmlspecialchars($request['id']) ?></h3>
+                            <p><strong>Endereço:</strong> <?= htmlspecialchars($request['rua']) ?>, <?= htmlspecialchars($request['numero']) ?> - <?= htmlspecialchars($request['bairro']) ?>, <?= htmlspecialchars($request['cidade']) ?></p>
+                            <p><strong>Pessoas para resgate:</strong> <?= htmlspecialchars($request['quantidade_pessoas']) ?></p>
+                            <p><strong>Animais:</strong> <?= $request['possui_animais'] ? 'Sim (' . htmlspecialchars($request['quantidade_animais']) . ')' : 'Não' ?></p>
+                            <p><strong>Situação:</strong> <?= htmlspecialchars($request['situacao']) ? htmlspecialchars($request['situacao']) : 'Não informada' ?></p>
+                            <p><strong>Data:</strong> <?= htmlspecialchars($request['data_criacao']) ?></p>
+                            <p><strong>Status:</strong> <span class="status-<?= strtolower(htmlspecialchars($request['status'])) ?>"><?= htmlspecialchars($request['status']) ?></span></p>
+                            
+                            <form action="crud_request/deleter.php" method="POST">
+                                <input type="hidden" name="id_chamado" value="<?= htmlspecialchars($request['id']) ?>">
+                                <button type="submit" class="btn btn-danger" onclick="return confirm('Realmente deseja excluir esse chamado?')">Excluir Chamado</button>
+                            </form>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php else: ?>
+                <div class="no-requests">
+                    <p>Nenhum chamado encontrado.</p>
+                    <a href="newticket.php" class="btn btn-success">Criar Novo Chamado</a>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+    <div></div>
 </body>
 </html>
