@@ -44,7 +44,7 @@ $user_id = $_SESSION['id'];
             <span class="icon"></span>
             <span>Meus Chamados</span>
           </div>
-          <div class="menu-item menu-map" onclick="navigate('uvolpage.php')">
+          <div class="menu-item menu-map" onclick="navigate('resgate_map.php')">
             <span class="icon"></span>
             <span>Mapa de Resgate</span>
           </div>
