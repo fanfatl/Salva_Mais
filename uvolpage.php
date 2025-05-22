@@ -1,3 +1,11 @@
+<?php
+//pegar chamados com status aberto (dps tem que criar o status fechado, encerrado e em andamento)
+include 'connection_db.php';
+$sql = "SELECT * FROM chamados WHERE status = 'aberto'";
+$stmt = $conn->prepare($sql);
+$stmt->execute();
+$chamado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,18 +31,6 @@
         <button onclick="toggleMenu()">✕</button>
       </div>
       <div class="menu-items">
-        <div class="menu-item menu-home" onclick="navigate('userpage.php')">
-          <span class="icon"></span>
-          <span>Início</span>
-        </div>
-        <div class="menu-item menu-new" onclick="navigate('newticket.php')">
-            <span class="icon"></span>
-            <span>Novo Chamado</span>
-          </div>
-          <div class="menu-item menu-requests" onclick="navigate('userpage.php#requests')">
-            <span class="icon"></span>
-            <span>Meus Chamados</span>
-          </div>
           <div class="menu-item menu-map" onclick="navigate('uvolpage.php')">
             <span class="icon"></span>
             <span>Mapa de Resgate</span>
@@ -63,10 +59,10 @@
 <script>
     function toggleMenu() {
         const menu = document.getElementById('menuContainer');
-       // const content = document.querySelector('.main-content');
+       
         
         menu.classList.toggle('active');
-       // content.classList.toggle('shifted');
+
     }
 
     function navigate(page) {
@@ -74,7 +70,6 @@
     }
 
     function logout() {
-        // Implementar lógica de logout
         window.location.href = 'logout.php';
     }
 </script>
@@ -87,6 +82,35 @@
         <div class="card">
             <div id="map"></div>
         </div>
+    </div>
+    <div class="request-item">
+    <h2>Chamados em aberto:</h2>
+     <?php if (count($chamado) > 0): ?>
+                <ul class="request-list">
+                    <?php foreach ($chamado as $request): ?>
+                        <li class="request-item">
+                            <h3>Chamado #<?= htmlspecialchars($request['id']) ?></h3>
+                            <p><strong>Nome: </strong></p>
+                            <p><strong>Endereço:</strong> <?= htmlspecialchars($request['rua']) ?>, <?= htmlspecialchars($request['numero']) ?> - <?= htmlspecialchars($request['bairro']) ?>, <?= htmlspecialchars($request['cidade']) ?></p>
+                            <p><strong>Pessoas para resgate:</strong> <?= htmlspecialchars($request['quantidade_pessoas']) ?></p>
+                            <p><strong>Animais:</strong> <?= $request['possui_animais'] ? 'Sim (' . htmlspecialchars($request['quantidade_animais']) . ')' : 'Não' ?></p>
+                            <p><strong>Situação:</strong> <?= htmlspecialchars($request['situacao']) ? htmlspecialchars($request['situacao']) : 'Não informada' ?></p>
+                            <p><strong>Data:</strong> <?= htmlspecialchars($request['data_criacao']) ?></p>
+                            <p><strong>Status:</strong> <span class="status-<?= strtolower(htmlspecialchars($request['status'])) ?>"><?= htmlspecialchars($request['status']) ?></span></p>
+                            
+                            <form action="aceitar_chamado.php" method="POST">
+                                <input type="hidden" name="id_usuario" value="<?= htmlspecialchars($user_id) ?>">
+                                <input type="hidden" name="id_chamado" value="<?= htmlspecialchars($request['id']) ?>">
+                                <button type="submit">Aceitar Chamado</button>
+                            </form>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php else: ?>
+                <div class="no-requests">
+                    <p>Nenhum chamado encontrado.</p>
+                </div>
+            <?php endif; ?>
     </div>
 
     <script>
