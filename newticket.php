@@ -96,7 +96,7 @@ $user_id = $_SESSION['id'];
         
         <div class="card">
             <form action="crud_request/creater.php" method="POST">
-                <input type="hidden" name="id_usuario" value="<?= htmlspecialchars($user_id) ?>">
+                <input type="hidden" name="usuario_id" value="<?= htmlspecialchars($user_id) ?>">
                 
                 <div class="form-group">
                     <label for="rua">Endereço:</label>

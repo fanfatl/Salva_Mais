@@ -18,7 +18,7 @@ $stmt->execute();
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
 // chamado
-$sql = "SELECT * FROM chamados WHERE usuario_id = :id";
+$sql = "SELECT * FROM chamados WHERE usuario_id = :id AND status = 'aberto'";
 $stmt_request = $conn->prepare($sql);
 $stmt_request->bindParam(':id', $user_id, PDO::PARAM_INT);
 $stmt_request->execute();

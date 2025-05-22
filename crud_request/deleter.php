@@ -1,18 +1,21 @@
 <?php
+session_start();
 include '../connection_db.php';
-if($_SERVER["REQUEST_METHOD"] == "POST") {
+
+if ($_SERVER["REQUEST_METHOD"] == "POST"){
     $id_chamado = $_POST['id_chamado'];
 
-    $sql = "DELETE FROM chamados WHERE id = :id";
+    $sql = "UPDATE chamados SET status = 'excluido' WHERE id = :id_chamado";
     $stmt = $conn->prepare($sql);
-    $stmt->bindParam(':id', $id_chamado, PDO::PARAM_INT);
-
+    $stmt->bindParam(':id_chamado', $id_chamado, PDO::PARAM_INT);
     if ($stmt->execute()) {
-        header("Location: ../userpage.php" . $_SESSION['id']);
+        echo "<script>alert('Chamado excluído com sucesso!');</script>";
+        header("Location: ../userpage.php");
         exit();
     } else {
-        echo "Erro ao excluir o chamado.";
-        print_r($stmt->errorInfo());
+        echo "<script>alert('Erro ao excluir chamado.');</script>";
+        header("Location: ../userpage.php");
+        exit();
     }
 }
 ?>
