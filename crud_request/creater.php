@@ -1,11 +1,13 @@
 <?php
-
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 session_start();
 include '../connection_db.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Pegando dados do formulário
-    $usuario_id = $_POST['id_usuario'];
+    $usuario_id = $_POST['usuario_id'];
     $rua = $_POST['rua'];
     $numero = $_POST['numero'];
     $bairro = $_POST['bairro'];
