@@ -1,7 +1,7 @@
 echo "Entrando em modo de UPLOAD"
 
-HOST="ftp.seuhost.educacao.ws"
-USER="seuuser"
+HOST="ftp.salvamais.saude.ws"
+USER="salvamaissaude1"
 
 echo $HOST
 PASS=$1
