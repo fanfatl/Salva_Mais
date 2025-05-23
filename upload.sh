@@ -63,4 +63,3 @@ COMAND="set ftp:list-options -a;
 
 #Execução
 lftp -c "$COMAND"
-x

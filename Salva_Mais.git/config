@@ -7,3 +7,6 @@
 	tagOpt = --no-tags
 	fetch = +refs/*:refs/*
 	mirror = true
+[remote "slave"]
+	url = https://gitlab.com/fanfatl/Salva_Mais.git
+	fetch = +refs/heads/*:refs/remotes/slave/*
