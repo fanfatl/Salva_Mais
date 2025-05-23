@@ -1,0 +1,10 @@
+image: enyalius/ci
+
+stages:
+  - upload
+
+upload:
+  stage: upload
+  script:
+    - chmod +x ./upload.sh
+    - ./upload.sh $SENHA_FTP
